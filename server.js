@@ -9,7 +9,7 @@ const port = 3000;
 const corsOptions = {
   origin: "http://localhost:4200",
   optionsSuccessStatus: 204,
-  methods: "GET, POST",
+  methods: "GET, POST, PUT",
 };
 
 // Use cors middleware
@@ -99,6 +99,8 @@ app.post("/clothes", (req, res) => {
   }
 */
 app.put("/clothes/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const { image, name, price, rating } = req.body;
 
   fs.readFile("db.json", "utf8", (err, data) => {
     if (err) {
