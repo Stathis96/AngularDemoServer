@@ -88,7 +88,16 @@ app.post("/clothes", (req, res) => {
   });
 });
 
-
+// PUT route - Allows to update an item
+// example: localhost:3000/clothes/1
+/*
+  body: {
+    "image": "https://your-image-url.com/image.png",
+    "name": "T-shirt",
+    "price": "10",
+    "rating": 4
+  }
+*/
 app.put("/clothes/:id", (req, res) => {
 
   fs.readFile("db.json", "utf8", (err, data) => {
@@ -100,8 +109,15 @@ app.put("/clothes/:id", (req, res) => {
 
     const jsonData = JSON.parse(data);
 
+    const index = jsonData.items.findIndex((item) => item.id === id);
+
+    if (index === -1) {
+      res.status(404).send("Not Found");
+      return;
+    }
 
     jsonData.items[index] = {
+      id,
       image,
       name,
       price,
