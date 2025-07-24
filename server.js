@@ -87,3 +87,35 @@ app.post("/clothes", (req, res) => {
     });
   });
 });
+
+
+app.put("/clothes/:id", (req, res) => {
+
+  fs.readFile("db.json", "utf8", (err, data) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    const jsonData = JSON.parse(data);
+
+
+    jsonData.items[index] = {
+      image,
+      name,
+      price,
+      rating,
+    };
+
+    fs.writeFile("db.json", JSON.stringify(jsonData), (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+        return;
+      }
+
+      res.status(200).json(jsonData.items[index]);
+    });
+  });
+});
