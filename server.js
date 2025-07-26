@@ -138,6 +138,8 @@ app.put("/clothes/:id", (req, res) => {
   });
 });
 
+// DELETE route - Allows to delete an item
+// example: localhost:3000/clothes/1
 app.delete("/clothes/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -151,8 +153,24 @@ app.delete("/clothes/:id", (req, res) => {
     const jsonData = JSON.parse(data);
 
     const index = jsonData.items.findIndex((item) => item.id === id);
-	  
-	  });
+
+    if (index === -1) {
+      res.status(404).send("Not Found");
+      return;
+    }
+
+    jsonData.items.splice(index, 1);
+
+    fs.writeFile("db.json", JSON.stringify(jsonData), (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+        return;
+      }
+
+      res.status(204).send();
+    });
+  });
 });
 
 app.listen(port, () => {
