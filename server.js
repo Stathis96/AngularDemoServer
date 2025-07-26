@@ -9,7 +9,7 @@ const port = 3000;
 const corsOptions = {
   origin: "http://localhost:4200",
   optionsSuccessStatus: 204,
-  methods: "GET, POST, PUT",
+  methods: "GET, POST, PUT, DELETE",
 };
 
 // Use cors middleware
